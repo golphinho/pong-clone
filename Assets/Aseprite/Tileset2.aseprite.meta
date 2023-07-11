@@ -121,16 +121,16 @@ ScriptedImporter:
   animatedSpriteImportData:
   - name: Tileset2
     originalName: 
-    pivot: {x: 0.8854167, y: -0.7361111}
+    pivot: {x: 0.52459013, y: -3}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 96
-      height: 144
-    spriteID: 77af30b7c72f34944af46417778d1b2a
+      width: 244
+      height: 64
+    spriteID: 9fb30b17f2a8b1e44a3a96bd5ffba51c
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -151,14 +151,14 @@ ScriptedImporter:
     - name: Tileset2
       frameIndex: 0
       cellRect:
-        x: 40
-        y: 106
-        width: 96
-        height: 144
-      spriteId: 77af30b7c72f34944af46417778d1b2a
+        x: 0
+        y: 192
+        width: 244
+        height: 64
+      spriteId: 9fb30b17f2a8b1e44a3a96bd5ffba51c
     linkedCells: []
     parentIndex: -1
   platformSettings: []
   secondarySpriteTextures: []
   spritePackingTag: 
-  canvasSize: {x: 250, y: 250}
+  canvasSize: {x: 256, y: 256}
