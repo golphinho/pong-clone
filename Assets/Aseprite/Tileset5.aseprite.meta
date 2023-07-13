@@ -121,15 +121,15 @@ ScriptedImporter:
   animatedSpriteImportData:
   - name: Tileset5
     originalName: 
-    pivot: {x: 0.52244896, y: -0.062240668}
+    pivot: {x: 0.5, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 245
-      height: 241
+      width: 256
+      height: 68
     spriteID: 2cd056953650a4144ae16f04e2b4166b
     spriteBone: []
     spriteOutline: []
@@ -152,13 +152,13 @@ ScriptedImporter:
       frameIndex: 0
       cellRect:
         x: 0
-        y: 15
-        width: 245
-        height: 241
+        y: 0
+        width: 256
+        height: 68
       spriteId: 2cd056953650a4144ae16f04e2b4166b
     linkedCells: []
     parentIndex: -1
   platformSettings: []
   secondarySpriteTextures: []
   spritePackingTag: 
-  canvasSize: {x: 256, y: 256}
+  canvasSize: {x: 256, y: 68}
