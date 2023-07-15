@@ -69,7 +69,6 @@ public class GameManager : MonoBehaviour
 
         RallyCounterReset();
 
-
     }
 
     //reinicia el contador de intercambios 

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.AnimatedValues;
 using UnityEngine;
@@ -9,18 +9,55 @@ public class CPU : PaddleBase
 
     GameObject ball;
 
+    enum CPUDifficulty {freePoints, easy, normal, hard, veryHard};
+
     [SerializeField]
-    float directionOffsetMinimum = -1f;
-    [SerializeField]
-    float directionOffsetMaximum = 1f;
+    CPUDifficulty currentCPUDifficulty = CPUDifficulty.normal; 
+
+    //mínimo y máximo del rango de números entre los que se va a elegir aleatoriamente un offset con respecto a la posición en y de la pelota.
+    //podría hacerse con un Vector2, pero me da cierta pereza implementarlo así que se queda así 😎👍
+    float directionOffsetMinimum;
+    float directionOffsetMaximum;
 
 
-    float directionOffset;
+    float directionOffset;   
 
     void Awake()
     {
         ball = GameObject.FindGameObjectWithTag("Ball");
         ballRB = ball.GetComponent<Rigidbody2D>();
+
+
+        //modifica el rango de aleatoriedad del offset en la dirección del objeto para cada dificultad
+        if (currentCPUDifficulty == CPUDifficulty.normal)
+        {
+            directionOffsetMinimum = -2f;
+            directionOffsetMaximum = 2f;
+
+        }else if((currentCPUDifficulty == CPUDifficulty.hard))
+        {
+            directionOffsetMinimum = -1f;
+            directionOffsetMaximum = 1f;
+
+        }
+        else if ((currentCPUDifficulty == CPUDifficulty.easy))
+        {
+            directionOffsetMinimum = -3f;
+            directionOffsetMaximum = 3f;
+
+        }
+        else if ((currentCPUDifficulty == CPUDifficulty.veryHard))
+        {
+            directionOffsetMinimum = 0f;
+            directionOffsetMaximum = 0f;
+
+        }
+        else if ((currentCPUDifficulty == CPUDifficulty.freePoints))
+        {
+            directionOffsetMinimum = -5f;
+            directionOffsetMaximum = 5f;
+
+        }
     }
 
     private void Start()
@@ -33,8 +70,8 @@ public class CPU : PaddleBase
     {
         if (ball != null && ballRB != null)
         {
-            //mueve el objeto hacia la pelota si esta se dirige hacia �l, y hacia el centro si la bola se dirige al otro jugador.
-            //no se mover� exactamente hacia donde est� la pelota para evitar que gane siempre
+            //mueve el objeto hacia la pelota si esta se dirige hacia él, y hacia el centro si la bola se dirige al otro jugador.
+            //no se moverá exactamente hacia donde está la pelota para evitar que gane siempre
             if (ballRB.velocity.x < 0)
             {
                 //mueve el objeto hacia la pelota con un cierto margen aleatorio
@@ -48,7 +85,7 @@ public class CPU : PaddleBase
         }
     }
 
-    //resetea el offset de la direcci�n del objeto cada segundo, para evitar comportamientos err�ticos cambi�ndolo cada vez que se llama a FixedUpdate
+    //resetea el offset de la dirección del objeto cada segundo, para evitar comportamientos erráticos cambiándolo cada vez que se llama a FixedUpdate
     IEnumerator OffsetResetter()
     {
         Random.InitState(System.DateTime.Now.Millisecond);

@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
-    GameManager GameManager;
     Rigidbody2D rb;
 
     //velocidad inicial de la bola
@@ -34,13 +33,6 @@ public class Ball : MonoBehaviour
 
         //le da al inicio del juego una velocidad determinada a la pelota (el sentido del saque inicial es aleatorio)
         rb.velocity = new Vector2(sentidoInicial[UnityEngine.Random.Range(0, sentidoInicial.Length)], sentidoInicial[UnityEngine.Random.Range(0, sentidoInicial.Length)]) * _initialBallSpeed;
-
-        ////Escribe la puntuación de cada jugador en su respectivo cuadro de texto cada vez que se carga la escena para que no vuelva a cero (está en este script porque el GameManager se mantiene)
-        //if (GameManager.Instance.scoreTextP1 != null && GameManager.Instance.scoreTextP2 != null)
-        //{
-        //    GameManager.Instance.scoreTextP1.SetText(GameManager.Instance.player1Score.ToString());
-        //    GameManager.Instance.scoreTextP2.SetText(GameManager.Instance.player2Score.ToString());
-        //}
     }
 
     void Update()

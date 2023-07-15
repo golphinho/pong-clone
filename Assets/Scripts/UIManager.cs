@@ -6,16 +6,14 @@ using UnityEngine;
 public class UIManager : MonoBehaviour
 {
 
-    GameManager GameManager;
     [SerializeField]
     TMP_Text scoreTextP1;
     [SerializeField]
     TMP_Text scoreTextP2;
 
-    private void Awake()
+    private void Start()
     {
-        GameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
-
+        //Actualiza la puntuación del jugador cada vez que se carga la escena (de forma que se mantenga el marcador actualizado)
         if (scoreTextP1 != null && scoreTextP2 != null)
         {
             scoreTextP1.text = GameManager.Instance.player1Score.ToString();
@@ -23,20 +21,18 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    //Actualiza la puntuación del jugador 1 en la UI
     public void UpdateScoreUIP1()
     {
-        if (scoreTextP1 != null)
-        {
-            scoreTextP1.text = GameManager.Instance.player1Score.ToString();
-        }
+        Debug.Log("ACTUALIZACIÓN P1");        
+        scoreTextP1.SetText(GameManager.Instance.player1Score.ToString());
     }
 
+    //Actualiza la puntuación del jugador 2 en la UI
     public void UpdateScoreUIP2()
     {
-        if (scoreTextP2 != null)
-        {
-            scoreTextP2.text = GameManager.Instance.player2Score.ToString();
-        }
+        Debug.Log("ACTUALIZACIÓN P2");
+        scoreTextP2.SetText(GameManager.Instance.player2Score.ToString());
     }
 
 
