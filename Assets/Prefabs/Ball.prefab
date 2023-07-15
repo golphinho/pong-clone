@@ -33,7 +33,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5369778409487570696
 SpriteRenderer:
@@ -127,7 +127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _initialBallSpeed: 8
-  _speedLimit: 18
+  _speedLimit: 19.25
   _collisionAcceleration: 1.025
 --- !u!61 &6520504756304214288
 BoxCollider2D:

@@ -2,13 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player2 : PaddleMovement
+public class Player2 : PaddleBase
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    //enumeración usada para poder pasar el input obtenido en Update a FixedUpdate
+    public enum KeyState {Off, Down, Up};
+
+    public KeyState vertical2State = KeyState.Off;
 
     // Update is called once per frame
     void Update()
@@ -20,18 +19,31 @@ public class Player2 : PaddleMovement
             //si se está pulsando el botón en sentido positivo (ver ProjectSettings > Input Manager), el objeto subirá
             if (Input.GetAxisRaw("VerticalPlayer2") > 0)
             {
-
-                MoveUp();
+                vertical2State = KeyState.Up;
 
                 //si se pulsa en sentido negativo, el objeto bajará
             }
             else if (Input.GetAxisRaw("VerticalPlayer2") < 0)
             {
-
-                MoveDown();
-
+                vertical2State = KeyState.Down;
             }
 
         }
     }
+
+    private void FixedUpdate()
+    {
+        if (vertical2State == KeyState.Up)
+        {
+            MoveUp();
+        }
+        else if (vertical2State == KeyState.Down)
+        {
+            MoveDown();
+        }
+
+        vertical2State = KeyState.Off;
+    }
+
+
 }

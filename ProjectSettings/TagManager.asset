@@ -7,6 +7,11 @@ TagManager:
   - Ball
   - GameManager
   - Paddle
+  - Trigger1
+  - Trigger2
+  - ScoreUIP1
+  - ScoreUIP2
+  - UIManager
   layers:
   - Default
   - TransparentFX
