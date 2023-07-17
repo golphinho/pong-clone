@@ -20,7 +20,7 @@ public class Ball : MonoBehaviour
     float _collisionAcceleration;
 
     //array usada para elegir aleatoriamente -1 ó 1, con el fin de decidir si inicialmente la pelota va hacia la derecha o hacia la izquierda
-    int[] sentidoInicial = {-1, 1};
+    readonly int[] sentidoInicial = {-1, 1};
 
 
     private void Awake()

@@ -14,37 +14,42 @@ public class GameManager : MonoBehaviour
     public int player1Score = 0;
     public int player2Score = 0;
 
-    int rallyCounter = 0;
+    public int rallyCounter = 0;
 
-    UIManager uiManager;    
+    UIManager uiManager;
+
+    //para mostrar el contador de intercambios una vez este iguale o supere a showRally
+    public int showRally = 12;
 
 
     private void Awake()
-    {
+    {        
         uiManager = GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>();
 
         //Hace que sea un singleton (que solo haya una instancia del objeto en cada momento)
         if (Instance == null)
         {
             Instance = this;
+
+            //Hace que el GameManager no se destruya al cargar la escena
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
+            //referencia ciertos objetos en el Instance cuando se reinicia la escena 
+            Instance.uiManager = GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>();
+            
+
             Debug.Log("Más de un GameManager en escenaa");
             Object.Destroy(this.gameObject);
         }
-
-        //Hace que el GameManager no se destruya al cargar la escena
-        DontDestroyOnLoad(gameObject);
-
-
 
     }
 
     //Le suma puntos al jugador 1, reinicia la escena y reinicia el contador de intercambio
     public void ScorePointP1(int scoreToAdd)
     {
-        //TODO: (sonido)
+        AudioManager.Instance.Play("Score");
         player1Score += scoreToAdd;        
 
         uiManager.UpdateScoreUIP1();
@@ -59,7 +64,7 @@ public class GameManager : MonoBehaviour
     //Le suma puntos al jugador 2, reinicia la escena y reinicia el contador de intercambio
     public void ScorePointP2(int scoreToAdd)
     {
-        //TODO: (sonido)
+        AudioManager.Instance.Play("Score");
         player2Score += scoreToAdd;
 
         uiManager.UpdateScoreUIP2();
@@ -77,16 +82,23 @@ public class GameManager : MonoBehaviour
         rallyCounter = 0;
     }
 
-    //sube el contador de intercambios en uno
+    //sube el contador de intercambios en uno, y comprueba el número actual de intercambios para mostrarlo en la pantalla y supera showRally
     public void RallyCounterUp()
     {
         rallyCounter++;
         Debug.Log("Contador de intercambio en: " + rallyCounter);
+
+        if (rallyCounter >= showRally)
+        {
+            uiManager.UpdateRallyUI();
+        }
     }
 
     IEnumerator WaitAndResetScene(float secondsToWait)
     {        
         yield return new WaitForSeconds(secondsToWait);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);        
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+
+
 }

@@ -23,6 +23,8 @@ public class PaddleBase : MonoBehaviour
         if (collision.collider.CompareTag("Ball"))
         {
             gameObject.GetComponent<Animator>().SetBool("hasCollidedWithBall", false);
+
+            //TODO: poner el sonido "Hit"
         }
     }
 

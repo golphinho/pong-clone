@@ -80,7 +80,7 @@ public class CPU : PaddleBase
             else if (ballRB.velocity.x > 0)
             {
                 //mueve el objeto hacia el centro
-                this.transform.position = Vector3.MoveTowards(this.transform.position, new Vector3(this.transform.position.x, -0.5f, 0f), (_paddleSpeed * Time.deltaTime));
+                this.transform.position = Vector3.MoveTowards(this.transform.position, new Vector3(this.transform.position.x, 0f, 0f), (_paddleSpeed * Time.deltaTime));
             }
         }
     }

@@ -11,6 +11,12 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     TMP_Text scoreTextP2;
 
+    [SerializeField]
+    TMP_Text rallyUI;
+
+    [SerializeField]
+    GameObject pauseMenu;
+
     private void Start()
     {
         //Actualiza la puntuación del jugador cada vez que se carga la escena (de forma que se mantenga el marcador actualizado)
@@ -18,6 +24,12 @@ public class UIManager : MonoBehaviour
         {
             scoreTextP1.text = GameManager.Instance.player1Score.ToString();
             scoreTextP2.text = GameManager.Instance.player2Score.ToString();
+        }
+
+        //reinicia el texto del contador de intercambios cada vez que se carga la escena
+        if (rallyUI != null)
+        {
+            rallyUI.SetText(" ");
         }
     }
 
@@ -35,5 +47,28 @@ public class UIManager : MonoBehaviour
         scoreTextP2.SetText(GameManager.Instance.player2Score.ToString());
     }
 
+    public void UpdateRallyUI()
+    {
+        rallyUI.SetText("Rally:" + GameManager.Instance.rallyCounter);
+    }
+
+    //pausa el juego, mostrando el menú de pausa
+    public void PauseGame()
+    {
+        pauseMenu.SetActive(true);
+        Time.timeScale = 0f;
+
+        //TODO: Poner los sonidos que tocan
+        AudioManager.Instance.Play("Pause");
+        AudioManager.Instance.Pause("BGM");
+    }
+
+    public void ResumeGame()
+    {
+        pauseMenu.SetActive(false);
+        Time.timeScale = 1f;
+
+        AudioManager.Instance.UnPause("BGM");
+    }
 
 }
