@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -17,6 +18,17 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     GameObject pauseMenu;
 
+    [SerializeField]
+    Button soundButton;
+
+    [HideInInspector]
+    public bool gameIsPaused = false;
+    [HideInInspector]
+    public int soundIsPaused = 0; //es int y no bool para poder usarlo como índice de array
+
+    //Los dos sprites del botón de sonido (que se intercambiarán)
+    [SerializeField] Sprite[] soundButtonSprites;
+
     private void Start()
     {
         //Actualiza la puntuación del jugador cada vez que se carga la escena (de forma que se mantenga el marcador actualizado)
@@ -30,6 +42,29 @@ public class UIManager : MonoBehaviour
         if (rallyUI != null)
         {
             rallyUI.SetText(" ");
+        }
+
+        //Establece el sprite del botón de sonido dependiendo de si el sonido está o no pausado
+        soundButton.image.sprite = soundButtonSprites[soundIsPaused];
+    }
+
+    private void Update()
+    {
+
+        //pausa el juego si se pulsa el botón de pausar
+        if (Input.GetButtonDown("Pause") && gameIsPaused == false)
+        {
+            PauseGame();       
+            
+        }else if (Input.GetButtonDown("Pause") && gameIsPaused == true)
+        {
+            ResumeGame();
+        }
+
+        //cambia el estado del sonido del juego si se pulsa el botón correspondiente
+        if (Input.GetButtonDown("Sound"))
+        {
+            SoundStateSwitch();
         }
     }
 
@@ -57,6 +92,7 @@ public class UIManager : MonoBehaviour
     {
         pauseMenu.SetActive(true);
         Time.timeScale = 0f;
+        gameIsPaused = true;
 
         //TODO: Poner los sonidos que tocan
         AudioManager.Instance.Play("Pause");
@@ -67,8 +103,27 @@ public class UIManager : MonoBehaviour
     {
         pauseMenu.SetActive(false);
         Time.timeScale = 1f;
+        gameIsPaused = false;
 
         AudioManager.Instance.UnPause("BGM");
+    }
+
+    public void SoundStateSwitch()
+    {
+
+        if (soundIsPaused == 1)
+        {
+            AudioListener.volume = 1f;
+            soundIsPaused = 0;
+
+        }
+        else if(soundIsPaused == 0)
+        {
+            AudioListener.volume = 0f;
+            soundIsPaused = 1;
+        }
+
+        soundButton.image.sprite = soundButtonSprites[soundIsPaused];
     }
 
 }

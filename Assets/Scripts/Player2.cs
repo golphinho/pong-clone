@@ -9,11 +9,17 @@ public class Player2 : PaddleBase
 
     public KeyState vertical2State = KeyState.Off;
 
-    // Update is called once per frame
+    UIManager uiManager;
+
+    private void Awake()
+    {
+        uiManager = GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>();
+    }
+
     void Update()
     {
         //Si el botón "VerticalPlayer2" está en estado pulsado, se mueve al personaje una cierta longitud
-        if (Input.GetButton("VerticalPlayer2"))
+        if (Input.GetButton("VerticalPlayer2") && uiManager.gameIsPaused == false)
         {
 
             //si se está pulsando el botón en sentido positivo (ver ProjectSettings > Input Manager), el objeto subirá
