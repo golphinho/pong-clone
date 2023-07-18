@@ -126,9 +126,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72e2dcbf5db2c754eb98386175e5d6ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _initialBallSpeed: 8
-  _speedLimit: 19.25
-  _collisionAcceleration: 1.025
+  _initialBallSpeed: 8.3
+  _speedLimit: 20
+  _collisionAcceleration: 1.03
+  CounterScreenObject: {fileID: 0}
+  CounterText: {fileID: 0}
 --- !u!61 &6520504756304214288
 BoxCollider2D:
   m_ObjectHideFlags: 0

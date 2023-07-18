@@ -20,8 +20,8 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
+  - P2
+  - CPU
   - 
   - 
   - 
@@ -53,9 +53,9 @@ TagManager:
   - name: BackgroundLvl
     uniqueID: 1823824385
     locked: 0
-  - name: UILvl
-    uniqueID: 2374491305
-    locked: 0
   - name: GameLvl
     uniqueID: 4196647243
+    locked: 0
+  - name: UILvl
+    uniqueID: 2374491305
     locked: 0

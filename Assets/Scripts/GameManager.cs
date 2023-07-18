@@ -21,6 +21,12 @@ public class GameManager : MonoBehaviour
     //para mostrar el contador de intercambios una vez este iguale o supere a showRally
     public int showRally = 12;
 
+    //para saber si algún jugador ha ganado
+    public bool player1Won = false;
+    public bool player2Won = false;
+
+    public int winScore = 10;
+
 
     private void Awake()
     {        
@@ -50,13 +56,20 @@ public class GameManager : MonoBehaviour
     public void ScorePointP1(int scoreToAdd)
     {
         AudioManager.Instance.Play("Score");
-        player1Score += scoreToAdd;        
+        player1Score += scoreToAdd;
 
         uiManager.UpdateScoreUIP1();
         Debug.Log("PUNTUACIÓN DE P1: " + player1Score);
 
-        StartCoroutine(WaitAndResetScene(1f));
 
+        if (player1Score >= winScore)
+        {
+            player1Won = true;
+        }
+        else
+        {
+            StartCoroutine(WaitAndResetScene(1f));
+        }       
         RallyCounterReset();
 
     }
@@ -68,12 +81,24 @@ public class GameManager : MonoBehaviour
         player2Score += scoreToAdd;
 
         uiManager.UpdateScoreUIP2();
-        Debug.Log("PUNTUACIÓN DE P2: " + player2Score);
+        Debug.Log("PUNTUACIÓN DE P2: " + player1Score);
 
-        StartCoroutine(WaitAndResetScene(1f));
 
+        if (player2Score >= winScore)
+        {
+            player2Won = true;
+        }
+        else
+        {
+            StartCoroutine(WaitAndResetScene(1f));
+        }
         RallyCounterReset();
+    }
 
+    public void ResetPoints()
+    {
+        player1Score = 0;
+        player2Score = 0;
     }
 
     //reinicia el contador de intercambios 
@@ -91,6 +116,11 @@ public class GameManager : MonoBehaviour
         if (rallyCounter >= showRally)
         {
             uiManager.UpdateRallyUI();
+        }
+
+        if (rallyCounter > PlayerPrefs.GetInt("Best Rally"))
+        {
+            PlayerPrefs.SetInt("Best Rally", rallyCounter);
         }
     }
 

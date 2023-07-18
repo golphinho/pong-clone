@@ -9,11 +9,6 @@ public class CPU : PaddleBase
 
     GameObject ball;
 
-    enum CPUDifficulty {freePoints, easy, normal, hard, veryHard};
-
-    [SerializeField]
-    CPUDifficulty currentCPUDifficulty = CPUDifficulty.normal; 
-
     //mínimo y máximo del rango de números entre los que se va a elegir aleatoriamente un offset con respecto a la posición en y de la pelota.
     //podría hacerse con un Vector2, pero me da cierta pereza implementarlo así que se queda así 😎👍
     float directionOffsetMinimum;
@@ -29,30 +24,30 @@ public class CPU : PaddleBase
 
 
         //modifica el rango de aleatoriedad del offset en la dirección del objeto para cada dificultad
-        if (currentCPUDifficulty == CPUDifficulty.normal)
+        if (PlayerPrefs.GetInt("CPU Difficulty") == 2)
         {
             directionOffsetMinimum = -2f;
             directionOffsetMaximum = 2f;
 
-        }else if((currentCPUDifficulty == CPUDifficulty.hard))
+        }else if(PlayerPrefs.GetInt("CPU Difficulty") == 3)
         {
             directionOffsetMinimum = -1f;
             directionOffsetMaximum = 1f;
 
         }
-        else if ((currentCPUDifficulty == CPUDifficulty.easy))
+        else if (PlayerPrefs.GetInt("CPU Difficulty") == 1)
         {
             directionOffsetMinimum = -3f;
             directionOffsetMaximum = 3f;
 
         }
-        else if ((currentCPUDifficulty == CPUDifficulty.veryHard))
+        else if (PlayerPrefs.GetInt("CPU Difficulty") == 4)
         {
             directionOffsetMinimum = 0f;
             directionOffsetMaximum = 0f;
 
         }
-        else if ((currentCPUDifficulty == CPUDifficulty.freePoints))
+        else if (PlayerPrefs.GetInt("CPU Difficulty") == 0)
         {
             directionOffsetMinimum = -5f;
             directionOffsetMaximum = 5f;

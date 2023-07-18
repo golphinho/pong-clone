@@ -14,6 +14,8 @@ public class Player1 : PaddleBase
     private void Awake()
     {
         uiManager = GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>();
+
+        Time.timeScale = 1.0f;
     }
 
     void Update()

@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
+using TMPro;
 using UnityEngine;
 
 public class Ball : MonoBehaviour
@@ -19,9 +21,14 @@ public class Ball : MonoBehaviour
     [SerializeField]
     float _collisionAcceleration;
 
-    //array usada para elegir aleatoriamente -1 ó 1, con el fin de decidir si inicialmente la pelota va hacia la derecha o hacia la izquierda
-    readonly int[] sentidoInicial = {-1, 1};
+    public static bool counterScreenShouldAppear = true;
 
+    readonly int[] initialBallDirection = { -1, 1 };
+
+    [SerializeField]
+    GameObject CounterScreenObject;
+    [SerializeField]
+    TMP_Text CounterText;
 
     private void Awake()
     {
@@ -29,10 +36,23 @@ public class Ball : MonoBehaviour
     }
 
     void Start()
-    {
+    {       
 
-        //le da al inicio del juego una velocidad determinada a la pelota (el sentido del saque inicial es aleatorio)
-        rb.velocity = new Vector2(sentidoInicial[UnityEngine.Random.Range(0, sentidoInicial.Length)], sentidoInicial[UnityEngine.Random.Range(0, sentidoInicial.Length)]) * _initialBallSpeed;
+        //La velocidad en x siempre es 1 para evitar problemas (quita las var)
+        UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
+        
+        //le da al inicio del juego una velocidad determinada a la pelota (la dirección y velocidad del saque inicial es aleatoria;
+        //la velocidad en x es siempre (1 ó -1) * _initialBallSpeed para evitar problemas)
+        rb.velocity = new Vector2(initialBallDirection[Random.Range(0, initialBallDirection.Length)], Random.Range(-1.5f, 1.5f)) * _initialBallSpeed;
+        Debug.Log("VELOCIDAD INICIAL X: " + rb.velocity.x + "VELOCIDAD INICIAL Y: " + rb.velocity.y);
+
+        //Hace aparecer el contador del inicio de la partida
+        if (counterScreenShouldAppear)
+        {
+            Time.timeScale = 0f;
+            StartCoroutine(CounterScreen());
+            
+        }
     }
 
     void Update()
@@ -41,7 +61,7 @@ public class Ball : MonoBehaviour
         if (transform.position.x > 10 || transform.position.x < -10)
         {
             Destroy(gameObject);
-            //activar sistema de partículas guapo            
+            //TODO: activar sistema de partículas guapo            
         }
     }
 
@@ -82,6 +102,20 @@ public class Ball : MonoBehaviour
     {
         rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y) * _collisionAcceleration;
         Debug.Log("VELOCIDAD SUBIDA, AHORA EN: " + rb.velocity.magnitude);
+    }
+
+    IEnumerator CounterScreen()
+    {
+        CounterScreenObject.SetActive(true);
+        CounterText.SetText("3");
+        yield return new WaitForSecondsRealtime(1f);
+        CounterText.SetText("2");
+        yield return new WaitForSecondsRealtime(1f);
+        CounterText.SetText("1");
+        yield return new WaitForSecondsRealtime(1f);
+        CounterScreenObject.SetActive(false);
+        Time.timeScale = 1f;
+        counterScreenShouldAppear = false;
     }
 
 }
