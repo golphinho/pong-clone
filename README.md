@@ -17,22 +17,22 @@ Available on the following systems:
 
 ## Screenshots:
 
-<img src="https://github.com/golphinho/pong-clone/assets/138117292/2884225e-c4fe-48bc-932f-142e78d8a612" alt="Main Menu" width="600"/>
+<img src="https://github.com/golphinho/pong-clone/assets/138117292/a6441d92-abd5-4250-ba61-f2516df9bc82" alt="Main Menu" width="600"/>
 
 *Main Menu*
 <br></br>
 
-<img src="https://github.com/golphinho/pong-clone/assets/138117292/f1d65df4-ef27-4650-887d-0cca90970c43" alt="Pre-Match" width="600"/>
+<img src="https://github.com/golphinho/pong-clone/assets/138117292/1b274e80-4715-4add-bde1-ee1da384fdde" alt="Pre-Match" width="600"/>
 
 *Pre-Match*
 <br></br>
 
-<img src="https://github.com/golphinho/pong-clone/assets/138117292/038f1c95-87dd-475e-a3a8-2dbed42be648" alt="Exciting Match" width="600"/>
+<img src="https://github.com/golphinho/pong-clone/assets/138117292/806ac991-4743-468b-8dc3-2b142d09b632" alt="Exciting Match" width="600"/>
 
 *Exciting Match*
 <br></br>
 
-<img src="https://github.com/golphinho/pong-clone/assets/138117292/fd15cf6f-7b35-4d66-bbe8-d76ab1c76167" alt="Player 1 Win" width="600"/>
+<img src="https://github.com/golphinho/pong-clone/assets/138117292/708ed541-faf3-4abd-8f8b-28d0664dc62a" alt="Player 1 Win" width="600"/>
 
 *Player 1 Win*
 <br></br>
