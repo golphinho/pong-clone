@@ -7,7 +7,7 @@ public class Player1 : PaddleBase
     //enumeración usada para poder pasar el input obtenido en Update a FixedUpdate
     public enum KeyState {Off, Down, Up, Mouse};
 
-    public KeyState vertical2State = KeyState.Off;
+    public KeyState vertical1State = KeyState.Off;
 
     UIManager uiManager;
 
@@ -30,13 +30,13 @@ public class Player1 : PaddleBase
             //si se está pulsando el botón en sentido positivo (ver ProjectSettings > Input Manager), el objeto subirá
             if (Input.GetAxisRaw("VerticalPlayer1") > 0)
             {
-                vertical2State = KeyState.Up;                
+                vertical1State = KeyState.Up;                
 
             //si se pulsa en sentido negativo, el objeto bajará
             }
             else if (Input.GetAxisRaw("VerticalPlayer1") < 0)
             {
-                vertical2State = KeyState.Down;
+                vertical1State = KeyState.Down;
             }            
 
         }
@@ -44,24 +44,24 @@ public class Player1 : PaddleBase
         //si el botón izquierdo del ratón se está pulsando, el personaje se dirigirá hacia donde está (en el eje y)
         if (Input.GetMouseButton(0))
         {
-            vertical2State = KeyState.Mouse;
+            vertical1State = KeyState.Mouse;
         }
     }
 
     private void FixedUpdate()
     {
-        if(vertical2State == KeyState.Up)
+        if(vertical1State == KeyState.Up)
         {
             MoveUp();
-        }else if(vertical2State == KeyState.Down) { 
+        }else if(vertical1State == KeyState.Down) { 
             MoveDown();
         }
-        else if (vertical2State == KeyState.Mouse)
+        else if (vertical1State == KeyState.Mouse)
         {
             transform.position = Vector3.MoveTowards(transform.position, new Vector3(transform.position.x, -mainCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, mainCamera.transform.position.z)).y, 0f), (_paddleSpeed * Time.deltaTime));
         }
 
-        vertical2State = KeyState.Off;
+        vertical1State = KeyState.Off;
 
         
     }

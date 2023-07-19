@@ -9,12 +9,12 @@ EditorBuildSettings:
     path: Assets/Scenes/StartMenu.unity
     guid: 6e2d850a4e74b2443a91e460b131cf5e
   - enabled: 1
-    path: Assets/Scenes/Game2P.unity
-    guid: 97bb7c0ecf268bd489d09f484375e340
-  - enabled: 1
-    path: Assets/Scenes/GameCPU.unity
-    guid: 7793afe90df642943af7c14a37f0421d
-  - enabled: 1
     path: Assets/Scenes/SettingsMenu.unity
     guid: ee083414155ad014bbe3e7213014d9ef
+  - enabled: 1
+    path: Assets/Scenes/GameCPU.unity
+    guid: 143fb1ac8d67d2c4b9fe65b3de407bde
+  - enabled: 1
+    path: Assets/Scenes/Game2P.unity
+    guid: 93c666ce2562e244aa543c1ceb939162
   m_configObjects: {}
