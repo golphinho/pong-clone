@@ -47,7 +47,9 @@ public class UIManager : MonoBehaviour
     TMP_Text bestRallyUI;
 
     //Los dos sprites del botón de sonido (que se intercambiarán cada vez que se pulse el botón)
-    [SerializeField] Sprite[] soundButtonSprites;    
+    [SerializeField] Sprite[] soundButtonSprites;
+
+    bool musicIsPlaying = false;
 
     private void Start()
     {
@@ -99,6 +101,19 @@ public class UIManager : MonoBehaviour
             bestRallyUI.SetText("Best Rally: " + PlayerPrefs.GetInt("Best Rally"));
         }
 
+        //empieza a reproducir la musica del menu principal si se está en él y no hay música ya
+        if (SceneManager.GetActiveScene().name == "StartMenu" && musicIsPlaying == false)
+        {
+            AudioManager.Instance.Play("MenuMusic");
+            musicIsPlaying = true;
+        }
+
+        //empieza a reproducir la música de fondo del juego si se está en él (lo del counterscreen es para empezar a reproducirla solo una vez)
+        if (SceneManager.GetActiveScene().name == "GameCPU" || SceneManager.GetActiveScene().name == "Game2P" && Ball.counterScreenShouldAppear)
+        {
+            AudioManager.Instance.Play("BGM");
+        }
+
     }
 
     private void Update()
@@ -122,13 +137,12 @@ public class UIManager : MonoBehaviour
 
         if (GameManager.Instance.player1Won == true)
         {
-            winP1.SetActive(true);
-            //TODO: Poner sonido
-            AudioManager.Instance.Play("WinPlayer");
+            winP1.SetActive(true);            
+            AudioManager.Instance.Play("PlayerWin");
             Debug.Log("Victoria del jugador 1!");
 
             GameManager.Instance.player1Won = false;
-            StartCoroutine(WaitAndGoToMainMenu(2f));
+            StartCoroutine(WaitAndGoToMainMenu(3f));
         }
         else if (GameManager.Instance.player2Won == true)
         {
@@ -139,20 +153,21 @@ public class UIManager : MonoBehaviour
                 if (GameObject.FindGameObjectsWithTag("Paddle")[i].GetComponent<CPU>() != null)
                 {
                     winCPU.SetActive(true);
-                    AudioManager.Instance.Play("WinCPU");
+                    AudioManager.Instance.Play("CPUWin");
+                    AudioManager.Instance.Pause("BGM");
                     Debug.Log("Victoria de la CPU!");
 
                 }
                 else if (GameObject.FindGameObjectsWithTag("Paddle")[i].GetComponent<Player2>() != null)
                 {
                     winP2.SetActive(true);
-                    AudioManager.Instance.Play("WinPlayer");
+                    AudioManager.Instance.Play("PlayerWin");
                     Debug.Log("Victoria del jugador 2!");
                 }
             }
 
             GameManager.Instance.player2Won = false;
-            StartCoroutine(WaitAndGoToMainMenu(2f));
+            StartCoroutine(WaitAndGoToMainMenu(3f));
         }
     }
 
@@ -180,9 +195,7 @@ public class UIManager : MonoBehaviour
     {
         pauseMenu.SetActive(true);
         Time.timeScale = 0f;
-        gameIsPaused = true;
-
-        //TODO: Poner los sonidos que tocan
+        gameIsPaused = true;        
         AudioManager.Instance.Play("Pause");
         AudioManager.Instance.Pause("BGM");
     }
@@ -232,33 +245,37 @@ public class UIManager : MonoBehaviour
     //cierra el juego (desde el menú principal)
     public void StartMenu_Exit() {
 
-        Application.Quit();
-        Debug.Log("AAAAAAplicacíon Cerradaaaaaaaaaaaa");
+        StartCoroutine(WaitAndCloseGame(1.5f));
     }
 
     public void GoToSettingsScene() {
-
         SceneManager.LoadScene("Scenes/SettingsMenu");
-
 
     }
 
     public void GoToMainMenu()
     {
+        AudioManager.Instance.Stop("BGM");
         SceneManager.LoadScene("Scenes/StartMenu");
         GameManager.Instance.ResetPoints();
     }
 
     public void StartMenu_Singleplayer()
     {
+        AudioManager.Instance.Play("PlayButton");
         SceneManager.LoadScene("Scenes/GameCPU");
         Ball.counterScreenShouldAppear = true;
+        AudioManager.Instance.Stop("MenuMusic");
+        musicIsPlaying = false;
     }
 
     public void StartMenu_Multiplayer()
     {
+        AudioManager.Instance.Play("PlayButton");
         SceneManager.LoadScene("Scenes/Game2P");
         Ball.counterScreenShouldAppear = true;
+        AudioManager.Instance.Stop("MenuMusic");
+        musicIsPlaying = false;
     }
 
     //espera los segundos requeridos, resetea todos los puntos, y manda al jugador al menú principal
@@ -268,6 +285,14 @@ public class UIManager : MonoBehaviour
         SceneManager.LoadScene("Scenes/StartMenu");
         GameManager.Instance.ResetPoints();
 
+    }
+
+    IEnumerator WaitAndCloseGame(float secondsToWait)
+    {
+        AudioManager.Instance.Play("ExitGame");
+        yield return new WaitForSeconds(secondsToWait);
+        Application.Quit();
+        Debug.Log("APLICACIÓN QUITADA");
     }
 
     //Cambia la dificultad de la CPU del juego
@@ -307,6 +332,16 @@ public class UIManager : MonoBehaviour
 
         }
 
+    }
+
+    public void ReproduceHoverSound()
+    {
+        AudioManager.Instance.Play("ButtonHover");
+    }
+
+    public void ReproducePressSound()
+    {
+        AudioManager.Instance.Play("ButtonPress");
     }
 
 }

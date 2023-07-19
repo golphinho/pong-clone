@@ -30,6 +30,14 @@ public class Ball : MonoBehaviour
     [SerializeField]
     TMP_Text CounterText;
 
+    [SerializeField]
+    GameObject ballParticleSystem;
+
+    [SerializeField]
+    GameObject self;
+
+    bool ballIsDestroyed = false;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -57,11 +65,18 @@ public class Ball : MonoBehaviour
 
     void Update()
     {
-        //hace que la bola se desactive si se sale de la pantalla
+        //hace que la bola se desactive si se sale de la pantalla (y activa el sistema de partículas de su destrucción)
         if (transform.position.x > 10 || transform.position.x < -10)
-        {
-            Destroy(gameObject);
-            //TODO: activar sistema de partículas guapo            
+        {            
+            if (ballParticleSystem != null && ballIsDestroyed == false)
+            {
+                ballParticleSystem.SetActive(true);
+                AudioManager.Instance.Play("BallDestruction");
+                self.GetComponent<SpriteRenderer>().enabled = false;
+                rb.velocity = Vector2.zero;
+                ballIsDestroyed = true;
+            }         
+            
         }
     }
 
@@ -108,14 +123,17 @@ public class Ball : MonoBehaviour
     {
         CounterScreenObject.SetActive(true);
         CounterText.SetText("3");
+        AudioManager.Instance.Play("CounterDown");
         yield return new WaitForSecondsRealtime(1f);
         CounterText.SetText("2");
+        AudioManager.Instance.Play("CounterDown");
         yield return new WaitForSecondsRealtime(1f);
         CounterText.SetText("1");
+        AudioManager.Instance.Play("CounterDown");
         yield return new WaitForSecondsRealtime(1f);
+        AudioManager.Instance.Play("CounterDown");
         CounterScreenObject.SetActive(false);
         Time.timeScale = 1f;
         counterScreenShouldAppear = false;
     }
-
 }

@@ -7,6 +7,8 @@ public class PaddleBase : MonoBehaviour
     
     public float _paddleSpeed = 9.81f;
 
+    string[] randomSoundEffect = { "Hit", "Hit2" };
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         //activa la animación de la pala al chocar con la pelota
@@ -22,9 +24,8 @@ public class PaddleBase : MonoBehaviour
         //desactiva la animación de la pala al dejar de chocar con la pelota
         if (collision.collider.CompareTag("Ball"))
         {
-            gameObject.GetComponent<Animator>().SetBool("hasCollidedWithBall", false);
-
-            //TODO: poner el sonido "Hit"
+            gameObject.GetComponent<Animator>().SetBool("hasCollidedWithBall", false);            
+            AudioManager.Instance.Play(randomSoundEffect[Random.Range(0, randomSoundEffect.Length)]);
         }
     }
 
