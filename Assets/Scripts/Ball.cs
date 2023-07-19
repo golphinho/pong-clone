@@ -29,6 +29,8 @@ public class Ball : MonoBehaviour
     GameObject CounterScreenObject;
     [SerializeField]
     TMP_Text CounterText;
+    [SerializeField]
+    GameObject buttons;
 
     [SerializeField]
     GameObject ballParticleSystem;
@@ -57,8 +59,9 @@ public class Ball : MonoBehaviour
         //Hace aparecer el contador del inicio de la partida
         if (counterScreenShouldAppear)
         {
+            buttons.SetActive(false);
             Time.timeScale = 0f;
-            StartCoroutine(CounterScreen());
+            StartCoroutine(CounterScreen(5));
             
         }
     }
@@ -119,21 +122,21 @@ public class Ball : MonoBehaviour
         Debug.Log("VELOCIDAD SUBIDA, AHORA EN: " + rb.velocity.magnitude);
     }
 
-    IEnumerator CounterScreen()
+    IEnumerator CounterScreen(int secondsToWait)
     {
         CounterScreenObject.SetActive(true);
-        CounterText.SetText("3");
-        AudioManager.Instance.Play("CounterDown");
-        yield return new WaitForSecondsRealtime(1f);
-        CounterText.SetText("2");
-        AudioManager.Instance.Play("CounterDown");
-        yield return new WaitForSecondsRealtime(1f);
-        CounterText.SetText("1");
-        AudioManager.Instance.Play("CounterDown");
-        yield return new WaitForSecondsRealtime(1f);
-        AudioManager.Instance.Play("CounterDown");
+
+        for (int i = 0; i < secondsToWait; i++)
+        {
+            CounterText.SetText((secondsToWait - i).ToString());
+            AudioManager.Instance.Play("CounterDown");
+            yield return new WaitForSecondsRealtime(1f);
+        }
         CounterScreenObject.SetActive(false);
         Time.timeScale = 1f;
+        buttons.SetActive(true);
+
+        AudioManager.Instance.Play("BGM");
         counterScreenShouldAppear = false;
     }
 }

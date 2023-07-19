@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
 
     public int winScore = 10;
 
+    public bool mainMenuMusicIsPlaying = false;
 
     private void Awake()
     {        

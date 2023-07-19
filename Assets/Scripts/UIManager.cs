@@ -49,8 +49,6 @@ public class UIManager : MonoBehaviour
     //Los dos sprites del botón de sonido (que se intercambiarán cada vez que se pulse el botón)
     [SerializeField] Sprite[] soundButtonSprites;
 
-    bool musicIsPlaying = false;
-
     private void Start()
     {
         //Actualiza la puntuación del jugador cada vez que se carga la escena (de forma que se mantenga el marcador actualizado)
@@ -102,16 +100,10 @@ public class UIManager : MonoBehaviour
         }
 
         //empieza a reproducir la musica del menu principal si se está en él y no hay música ya
-        if (SceneManager.GetActiveScene().name == "StartMenu" && musicIsPlaying == false)
+        if (SceneManager.GetActiveScene().name == "StartMenu" && GameManager.Instance.mainMenuMusicIsPlaying == false)
         {
             AudioManager.Instance.Play("MenuMusic");
-            musicIsPlaying = true;
-        }
-
-        //empieza a reproducir la música de fondo del juego si se está en él (lo del counterscreen es para empezar a reproducirla solo una vez)
-        if (SceneManager.GetActiveScene().name == "GameCPU" || SceneManager.GetActiveScene().name == "Game2P" && Ball.counterScreenShouldAppear)
-        {
-            AudioManager.Instance.Play("BGM");
+            GameManager.Instance.mainMenuMusicIsPlaying = true;
         }
 
     }
@@ -266,7 +258,7 @@ public class UIManager : MonoBehaviour
         SceneManager.LoadScene("Scenes/GameCPU");
         Ball.counterScreenShouldAppear = true;
         AudioManager.Instance.Stop("MenuMusic");
-        musicIsPlaying = false;
+        GameManager.Instance.mainMenuMusicIsPlaying = false;
     }
 
     public void StartMenu_Multiplayer()
@@ -275,13 +267,14 @@ public class UIManager : MonoBehaviour
         SceneManager.LoadScene("Scenes/Game2P");
         Ball.counterScreenShouldAppear = true;
         AudioManager.Instance.Stop("MenuMusic");
-        musicIsPlaying = false;
+        GameManager.Instance.mainMenuMusicIsPlaying = false;
     }
 
     //espera los segundos requeridos, resetea todos los puntos, y manda al jugador al menú principal
     IEnumerator WaitAndGoToMainMenu(float secondsToWait)
     {
         yield return new WaitForSeconds(secondsToWait);
+        AudioManager.Instance.Stop("BGM");
         SceneManager.LoadScene("Scenes/StartMenu");
         GameManager.Instance.ResetPoints();
 

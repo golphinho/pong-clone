@@ -5,15 +5,20 @@ using UnityEngine;
 public class Player2 : PaddleBase
 {
     //enumeración usada para poder pasar el input obtenido en Update a FixedUpdate
-    public enum KeyState {Off, Down, Up};
+    public enum KeyState { Off, Down, Up, Mouse };
 
     public KeyState vertical2State = KeyState.Off;
 
     UIManager uiManager;
 
+    [SerializeField]
+    Camera mainCamera;
+
     private void Awake()
     {
         uiManager = GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>();
+
+        Time.timeScale = 1.0f;
     }
 
     void Update()
@@ -35,6 +40,12 @@ public class Player2 : PaddleBase
             }
 
         }
+
+        //si el botón izquierdo del ratón se está pulsando, el personaje se dirigirá hacia donde está (en el eje y)
+        if (Input.GetMouseButton(1))
+        {
+            vertical2State = KeyState.Mouse;
+        }
     }
 
     private void FixedUpdate()
@@ -47,8 +58,14 @@ public class Player2 : PaddleBase
         {
             MoveDown();
         }
+        else if (vertical2State == KeyState.Mouse)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(transform.position.x, -mainCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, mainCamera.transform.position.z)).y, 0f), (_paddleSpeed * Time.deltaTime));
+        }
 
         vertical2State = KeyState.Off;
+
+
     }
 
 

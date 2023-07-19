@@ -53,6 +53,9 @@ TagManager:
   - name: BackgroundLvl
     uniqueID: 1823824385
     locked: 0
+  - name: UILvl2
+    uniqueID: 3627603445
+    locked: 0
   - name: GameLvl
     uniqueID: 4196647243
     locked: 0
