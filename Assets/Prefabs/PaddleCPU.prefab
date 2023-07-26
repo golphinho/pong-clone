@@ -168,7 +168,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 9999
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -194,4 +194,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _paddleSpeed: 9.81
-  currentCPUDifficulty: 1

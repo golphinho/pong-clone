@@ -272,7 +272,7 @@ public class UIManager : MonoBehaviour
     //espera los segundos requeridos, resetea todos los puntos, y manda al jugador al menú principal
     IEnumerator WaitAndGoToMainMenu(float secondsToWait)
     {
-        yield return new WaitForSeconds(secondsToWait);
+        yield return new WaitForSecondsRealtime(secondsToWait);
         AudioManager.Instance.Stop("BGM");
         SceneManager.LoadScene("Scenes/StartMenu");
         GameManager.Instance.ResetPoints();
@@ -282,7 +282,7 @@ public class UIManager : MonoBehaviour
     IEnumerator WaitAndCloseGame(float secondsToWait)
     {
         AudioManager.Instance.Play("ExitGame");
-        yield return new WaitForSeconds(secondsToWait);
+        yield return new WaitForSecondsRealtime(secondsToWait);
         Application.Quit();
         Debug.Log("APLICACIÓN QUITADA");
     }

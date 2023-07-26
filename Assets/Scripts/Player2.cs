@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.ParticleSystem;
 
 public class Player2 : PaddleBase
 {
     //enumeración usada para poder pasar el input obtenido en Update a FixedUpdate
-    public enum KeyState { Off, Down, Up, Mouse };
+    public enum KeyState { Off, Down, Up, Touch };
 
     public KeyState vertical2State = KeyState.Off;
 
@@ -13,6 +14,8 @@ public class Player2 : PaddleBase
 
     [SerializeField]
     Camera mainCamera;
+
+    [SerializeField] LayerMask layerToDetect;
 
     private void Awake()
     {
@@ -41,11 +44,21 @@ public class Player2 : PaddleBase
 
         }
 
-        //si el botón izquierdo del ratón se está pulsando, el personaje se dirigirá hacia donde está (en el eje y)
-        if (Input.GetMouseButton(1))
+        for (int i = 0; i < Input.touchCount; ++i)
         {
-            vertical2State = KeyState.Mouse;
+            if (Input.GetTouch(i).phase == TouchPhase.Moved)
+            {
+                Ray pointerRay = mainCamera.ScreenPointToRay(Input.GetTouch(i).position);
+
+                if (Physics2D.Raycast(pointerRay.origin, pointerRay.direction, 15f, layerToDetect))
+                {
+                    vertical2State = KeyState.Touch;
+                    Debug.DrawRay(pointerRay.origin, pointerRay.direction * 10f, Color.cyan);
+                }
+
+            }
         }
+
     }
 
     private void FixedUpdate()
@@ -58,9 +71,17 @@ public class Player2 : PaddleBase
         {
             MoveDown();
         }
-        else if (vertical2State == KeyState.Mouse)
+        else if (vertical2State == KeyState.Touch)
         {
-            transform.position = Vector3.MoveTowards(transform.position, new Vector3(transform.position.x, -mainCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, mainCamera.transform.position.z)).y, 0f), (_paddleSpeed * Time.deltaTime));
+            for (int i = 0; i < Input.touchCount; ++i)
+            {
+                Ray pointerRay = mainCamera.ScreenPointToRay(Input.GetTouch(i).position);
+
+                if (Physics2D.Raycast(pointerRay.origin, pointerRay.direction, 15f, layerToDetect))
+                {
+                    transform.position = Vector3.MoveTowards(transform.position, new Vector3(transform.position.x, -mainCamera.ScreenToWorldPoint(new Vector3(Input.GetTouch(i).position.x, Input.GetTouch(i).position.y, mainCamera.transform.position.z)).y, 0f), (_paddleSpeed * Time.deltaTime));
+                }
+            }
         }
 
         vertical2State = KeyState.Off;

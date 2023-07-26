@@ -75,7 +75,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -98320053
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 2043195553, guid: 57d5435938b59cc44a33c52ee700bd8b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -196,3 +196,6 @@ MonoBehaviour:
   _paddleSpeed: 9.81
   vertical2State: 0
   mainCamera: {fileID: 0}
+  layerToDetect:
+    serializedVersion: 2
+    m_Bits: 512

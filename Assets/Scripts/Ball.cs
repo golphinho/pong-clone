@@ -40,6 +40,9 @@ public class Ball : MonoBehaviour
 
     bool ballIsDestroyed = false;
 
+    Vector2 velocityTmp;
+    Vector2 positionTmp;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -64,13 +67,17 @@ public class Ball : MonoBehaviour
             StartCoroutine(CounterScreen(5));
             
         }
+
+        Application.targetFrameRate = 60;
     }
 
     void Update()
     {
+        positionTmp = this.transform.position;
+
         //hace que la bola se desactive si se sale de la pantalla (y activa el sistema de partículas de su destrucción)
         if (transform.position.x > 10 || transform.position.x < -10)
-        {            
+        {
             if (ballParticleSystem != null && ballIsDestroyed == false)
             {
                 ballParticleSystem.SetActive(true);
@@ -78,24 +85,53 @@ public class Ball : MonoBehaviour
                 self.GetComponent<SpriteRenderer>().enabled = false;
                 rb.velocity = Vector2.zero;
                 ballIsDestroyed = true;
-            }         
-            
+            }
         }
+        else if (rb.velocity.magnitude <= 6.5f)
+        {
+            this.transform.position = positionTmp;
+            rb.velocity *= 8.7f;
+        }       
     }
 
-    private void OnCollisionExit2D(Collision2D collision)
+    private void FixedUpdate()
     {        
+        velocityTmp = rb.velocity;
+        Debug.DrawLine(this.transform.position, velocityTmp, Color.red);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log("COLISIONES: " + collision.contactCount);
+
+        if (collision.collider.CompareTag("Paddle") && Mathf.Abs(this.transform.position.y) < 5f)
+        {
+            rb.velocity = Vector3.Normalize((this.transform.position - collision.transform.position)) * velocityTmp.magnitude;
+            Debug.Log(this.transform.position - collision.transform.position);
+        }
+        else
+        {
+            ContactPoint2D cp = collision.contacts[0];
+            rb.velocity = Vector2.Reflect(velocityTmp, cp.normal);
+        }
+       
+    }
+
+
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
 
         //si choca con una de las palas, su velocidad aumentará hasta cierto límite (también, independientemente de la velocidad de la pelota, subirá el contador de intercambio)
         if (collision.collider.CompareTag("Paddle") && rb.velocity.magnitude <= _speedLimit)
         {
             SpeedUpBall();
-            GameManager.Instance.RallyCounterUp();
+            GameManager.Instance.RallyCounterUp();           
 
         }
         else if (collision.collider.CompareTag("Paddle") && rb.velocity.magnitude > _speedLimit)
         {
-            Debug.Log("EXCEDISTE LÍM DE VELOCIDAD!!!!!!!");
+            Debug.Log("EXCEDISTE LÍM DE VELOCIDAD!!!!!!! (" + rb.velocity.magnitude + ")");
             GameManager.Instance.RallyCounterUp();
 
         }        
